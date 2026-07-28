@@ -1,13 +1,14 @@
 import axios from "axios";
 
-const WHOP_API = "https://api.whop.com/api/v5";
+export const whop = axios.create({
+  baseURL: "https://api.whop.com/api/v5",
+  headers: {
+    Authorization: `Bearer ${process.env.WHOP_API_KEY}`,
+    "Content-Type": "application/json",
+  },
+});
 
-export async function getUser(accessToken: string) {
-  const response = await axios.get(`${WHOP_API}/me`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
+export async function getUser() {
+  const response = await whop.get("/me");
   return response.data;
 }
